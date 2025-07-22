@@ -23,18 +23,18 @@ public class AdminController {
     private UserService userService;
 
     @GetMapping("/fetch")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUser();
 
-        return new ResponseEntity<>(users,HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping("/block")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Object> blockUser(@PathVariable Long Id){
+    public ResponseEntity<Object> blockUser(@PathVariable Long Id) {
 
         User user = userService.getUserById(Id);
-        if (user == null){
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
         userService.blockuser(user);
@@ -44,23 +44,26 @@ public class AdminController {
 
     @PostMapping("/updateRoles")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity updateUserRoles(@PathVariable String Username , String newRoleName){
+    public ResponseEntity updateUserRoles(@PathVariable String Username, String newRoleName) {
         User user = userService.getUserbyUsername(Username);
-        if (user == null){
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        userService.updateUserRoles(user,newRoleName);
+        userService.updateUserRoles(user, newRoleName);
         return ResponseEntity.ok("ok");
     }
 
-    //public String publishCourse(){
+    @GetMapping("/testing")
+    public String publishCourse() {
+
+        return "Testing the initial Git commit";
 
 
+        //}
 
-    //}
+        //public String generateReports(){
 
-    //public String generateReports(){
+        //}
 
-    //}
-
+    }
 }
