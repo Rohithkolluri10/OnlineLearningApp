@@ -1,0 +1,18 @@
+package com.onlineLearningPlatform.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResponseDto {
+
+    public String username;
+
+    public String emailaddress;
+
+}
