@@ -1,8 +1,9 @@
 package com.onlineLearningPlatform.Service;
 
 import com.onlineLearningPlatform.dto.RegisterDto;
+import com.onlineLearningPlatform.model.Course;
 import com.onlineLearningPlatform.model.User;
-import com.onlineLearningPlatform.model.UserPrincipal;
+import com.onlineLearningPlatform.model.UserRole;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    void blockuser(User user1);
+    void blockuser(Long user1);
 
-    void updateUserRoles(User user, String admin);
+    User updateUserRoles(String user, UserRole role);
 
     User getUserbyUsername(String username);
 
@@ -23,5 +24,9 @@ public interface UserService {
 
     User registeruser(@Valid RegisterDto registerDto);
 
-    UserPrincipal getUserbyName(String username);
+    User updateUserProfile(RegisterDto registerDto);
+
+    List<Course> getUserCourses(String username);
+
+    void getNotificaton(User user);
 }

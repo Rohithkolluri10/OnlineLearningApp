@@ -3,35 +3,35 @@ package com.onlineLearningPlatform.controllers;
 
 public class QuizController {
 
-    public String getQuizesByCourses(){
+    public void getQuizesByCourses(){
 
     }
 
-    public String getQuizByID(){
+    public void getQuizByID(){
 
     }
 
-    public String createQuiz(){
+    public void createQuiz(){
 
     }
 
-    public String updateQuiz(){
+    public void updateQuiz(){
 
     }
 
-    public String deleteQuiz(){
+    public void deleteQuiz(){
 
     }
 
-    public String submitQuiz(){
+    public void submitQuiz(){
 
     }
 
-    public String attemptQuiz(){
+    public void attemptQuiz(){
 
     }
 
-    public String getLeaderBoardScores(){
+    public void getLeaderBoardScores(){
 
     }
 

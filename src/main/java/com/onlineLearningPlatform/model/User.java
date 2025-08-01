@@ -3,6 +3,7 @@ package com.onlineLearningPlatform.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Entity
 public class User {
 
     @Id
@@ -29,11 +30,11 @@ public class User {
 
     private boolean active = true;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_userroles",
-            joinColumns = @JoinColumn(name = "user_Id"),
-            inverseJoinColumns = @JoinColumn(name = "user_roles_id")
-    )
-    private Set<UserRoles> roles = new HashSet<>();
+    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER) // EAGER fetch is common for roles
+    @CollectionTable(name = "user_roles", // Name of the join table for roles
+            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id")) // Foreign key in user_roles table
+    @Column(name = "role_name", nullable = false) // Column in user_roles table to store the enum value
+    @Enumerated(EnumType.STRING)
+    private List<UserRole> roles = new ArrayList<>();
+
 }

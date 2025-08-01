@@ -5,24 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-
-    private String Username;
-
-    private String email;
-
-    private String apiresponse;
-
-    private String apiStatus;
-
+@Setter
+@Getter
+public class ResponselistDto {
+    private String username;
+    private String emailAdress;
     private boolean isActive;
-
     private boolean isBlocked;
-
-
-
 }

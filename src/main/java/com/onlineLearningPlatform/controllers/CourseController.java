@@ -8,40 +8,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/Courses")
 public class CourseController {
 
-    public ResponseEntity<String> getAllCourses(){
+    public void getAllCourses(){
 
     }
 
-    public ResponseEntity<String> getCourseById(){
+    public void getCourseById(){
 
     }
 
-    public ResponseEntity<String> createCourse(){
+    public void createCourse(){
 
     }
 
-    public ResponseEntity<String> updateCourse(){
+    public void updateCourse(){
 
     }
 
-    public ResponseEntity<String> deleteCourse(){
+    public void deleteCourse(){
 
     }
 
-    public ResponseEntity<String> searchCourses(){
+    public void searchCourses(){
 
     }
 
-    public ResponseEntity<String> getCourseReview(){
+    public void getCourseReview(){
 
     }
 
-    public ResponseEntity<String> addReviewToCourse(){
+    public void addReviewToCourse(){
 
 
     }
 
-    public ResponseEntity<String> enrollUserToCourse(){
+    public void enrollUserToCourse(){
 
     }
+
 }

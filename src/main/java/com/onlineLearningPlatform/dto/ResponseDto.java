@@ -7,12 +7,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class ResponseDto {
 
-    public String username;
+    public ResponseDto(boolean success, String message) {
+        this.success = success;
+        this.message = message;
+    }
 
-    public String emailaddress;
+    public boolean success;
+
+    public String message;
 
 }

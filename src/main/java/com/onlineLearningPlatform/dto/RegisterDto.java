@@ -1,17 +1,21 @@
 package com.onlineLearningPlatform.dto;
 
 
-import com.onlineLearningPlatform.model.UserRoles;
+import com.onlineLearningPlatform.model.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterDto {
 
     @NotBlank(message = "User name cannot be blank")
@@ -26,5 +30,4 @@ public class RegisterDto {
     private String emailadress;
 
 
-    private List<UserRoles> role;
 }
