@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -32,7 +33,7 @@ public class User {
 
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER) // EAGER fetch is common for roles
     @CollectionTable(name = "user_roles", // Name of the join table for roles
-            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id")) // Foreign key in user_roles table
+            joinColumns = @JoinColumn(name = "users_id",referencedColumnName = "id")) // Foreign key in user_roles table
     @Column(name = "role_name", nullable = false) // Column in user_roles table to store the enum value
     @Enumerated(EnumType.STRING)
     private List<UserRole> roles = new ArrayList<>();
