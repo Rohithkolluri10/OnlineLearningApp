@@ -4,4 +4,4 @@ steps:
   with:
     distribution: 'corretto' 
     java-version: '17'
-- run: java .java
+- run: java OnlineLearingAppApplication.java.java
