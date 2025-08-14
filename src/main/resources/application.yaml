@@ -12,7 +12,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect # For MySQL 8+
     hibernate:
-      ddl-auto: update # Good for development; consider 'validate' or 'none' for production
+      ddl-auto: create # Good for development; consider 'validate' or 'none' for production
     show-sql: true # Shows SQL queries in the console (useful for debugging)
 
   servlet:
