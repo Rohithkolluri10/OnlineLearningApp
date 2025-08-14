@@ -36,6 +36,7 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
     @Operation(
             summary = "Fetch All Users REST API",
             description = "REST API to Fetch All the User from Admin"
@@ -50,8 +51,6 @@ public class AdminController {
                     description = "HTTP Status Internal Server Error"
             )
     })
-
-
     @GetMapping("/fetch")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<List<ResponselistDto>> getAllUsers() {
@@ -74,7 +73,6 @@ public class AdminController {
                     description = "HTTP Status Internal Server Error"
             )
     })
-
     @PostMapping("/block")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Object> blockUser(@RequestParam Long Id) {
@@ -95,7 +93,6 @@ public class AdminController {
                     description = "HTTP Status Internal Server Error"
             )
     })
-
     @PostMapping("/updateRoles")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<RoleResponseDto> updateUserRoles(@RequestParam String emailAddress, UserRole role) {

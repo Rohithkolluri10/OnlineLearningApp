@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public User getUserById(Long id){
+    public Optional<User> getUserById(Long id){
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()){
             throw new RuntimeException("User not found");
         }else {
-            return User.builder().build();
+            return optionalUser;
         }
     }
 

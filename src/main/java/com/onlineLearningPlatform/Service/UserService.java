@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAllUser();
 
-    User getUserById(Long id);
+    Optional<User> getUserById(Long id);
 
     void blockuser(Long user1);
 

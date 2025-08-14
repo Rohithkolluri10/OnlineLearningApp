@@ -4,12 +4,11 @@ import com.onlineLearningPlatform.dto.RegisterDto;
 import com.onlineLearningPlatform.dto.ResponselistDto;
 import com.onlineLearningPlatform.dto.UserDto;
 import com.onlineLearningPlatform.model.User;
-import com.onlineLearningPlatform.model.UserRole;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Component
 public class UserMapper {
@@ -27,13 +26,14 @@ public class UserMapper {
         return user;
     }
 
-    public static UserDto mapUsertoUserDTo(User user , UserDto userDto){
-        userDto.setUsername(user.getName());
-        userDto.setEmail(user.getEmailAddress());
-        userDto.setActive(user.isActive());
-        userDto.setBlocked(user.isBlocked());
+    public static UserDto mapUsertoUserDTo(Optional<User> user , UserDto userDto){
+        userDto.setUsername(user.get().getName());
+        userDto.setEmail(user.get().getEmailAddress());
+        userDto.setActive(user.get().isActive());
+        userDto.setBlocked(user.get().isBlocked());
         return userDto;
     }
+
 
     public List<ResponselistDto> mapUserlisttoUserDTo(List<User> users) {
         List<ResponselistDto> userDtoList = new ArrayList<>();

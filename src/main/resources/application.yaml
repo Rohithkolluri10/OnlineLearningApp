@@ -4,9 +4,9 @@ spring:
   application:
     name: "OnlineLearningApp"
   datasource:
-    url: jdbc:mysql://localhost:3306/online_learning
+    url: jdbc:mysql://localhost:3306/onlinelearningapp
     username: root
-    password: root
+    password: Karna@2019#
     driver-class-name: com.mysql.cj.jdbc.Driver # Correct driver for MySQL 8+
 
   jpa:
@@ -19,3 +19,8 @@ spring:
     context-path: /api # Your application's base path for all endpoints
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

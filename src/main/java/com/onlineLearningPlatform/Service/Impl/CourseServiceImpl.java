@@ -1,17 +1,21 @@
 package com.onlineLearningPlatform.Service.Impl;
 
+import com.onlineLearningPlatform.Mapper.CourseMapper;
 import com.onlineLearningPlatform.Service.CourseService;
-import com.onlineLearningPlatform.dto.LessonDetails;
+import com.onlineLearningPlatform.dto.*;
 import com.onlineLearningPlatform.model.Course;
 import com.onlineLearningPlatform.model.Lesson;
 import com.onlineLearningPlatform.repository.CourseRepository;
 import com.onlineLearningPlatform.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
@@ -62,6 +66,59 @@ public class CourseServiceImpl implements CourseService {
     }
 
     private void addNewlesson(LessonDetails lessonDetails) {
+
+    }
+
+    @Override
+    public List<CourseDto> getallCourses() {
+        List<Course> courses = courseRepository.findAll();
+        List<CourseDto> courseDtos = CourseMapper.mapCourselisttoCourseDtolist(courses);
+        return courseDtos;
+    }
+
+    @Override
+    public CourseDto findById(Long id) {
+        Course course = courseRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(
+                        "Course not found with the mentioned Id"
+                )
+        );
+        CourseDto courseDto = CourseMapper.mapcoursetocourseDto(course,new CourseDto());
+        return courseDto;
+    }
+
+    @Override
+    public CourseResponseDto createcourse(CourseCreateDto courseCreateDto) {
+        Course course = new Course();
+        course.setName(courseCreateDto.getName());
+        course.setContents(courseCreateDto.getContents());
+        course.setPrice(courseCreateDto.getPrice());
+        course.setDescription(courseCreateDto.getDescription());
+
+        courseRepository.save(course);
+
+        List<Lesson> lessons = new ArrayList<>();
+
+        if (courseCreateDto.getLessons() != null) {
+            for (LessonDtoforCreateCourse lessonDtoforCreateCourse : courseCreateDto.getLessons()) {
+                Lesson lesson = new Lesson();
+                lesson.setTitle(lessonDtoforCreateCourse.getTitle());
+                lesson.setDescription(lessonDtoforCreateCourse.getDescription());
+                lesson.setVideoUrl(lessonDtoforCreateCourse.getVideoUrl());
+                lesson.setCourse(course);
+                lessons.add(lesson);
+            }
+        }
+        lessonRespository.saveAll(lessons);
+
+        Long defaultnumbers = lessonRespository.countByCourseId(course.getId());
+
+        CourseResponseDto courseResponseDto = new CourseResponseDto();
+        courseResponseDto.setId(course.getId());
+        courseResponseDto.setPrice(course.getPrice());
+        courseResponseDto.setName(course.getName());
+        courseResponseDto.setNumofDefaultlessonadded(defaultnumbers);
+        return courseResponseDto;
 
     }
 }
