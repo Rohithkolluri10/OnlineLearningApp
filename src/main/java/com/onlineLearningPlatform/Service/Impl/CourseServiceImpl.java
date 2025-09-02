@@ -2,15 +2,23 @@ package com.onlineLearningPlatform.Service.Impl;
 
 import com.onlineLearningPlatform.Mapper.CourseMapper;
 import com.onlineLearningPlatform.Service.CourseService;
+import com.onlineLearningPlatform.config.Awsclient;
 import com.onlineLearningPlatform.dto.*;
 import com.onlineLearningPlatform.model.Course;
+import com.onlineLearningPlatform.model.Enrollment;
 import com.onlineLearningPlatform.model.Lesson;
+import com.onlineLearningPlatform.model.Review;
 import com.onlineLearningPlatform.repository.CourseRepository;
+import com.onlineLearningPlatform.repository.EnrollmentRespository;
 import com.onlineLearningPlatform.repository.LessonRepository;
+import com.onlineLearningPlatform.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +33,20 @@ public class CourseServiceImpl implements CourseService {
     private LessonRepository lessonRespository;
 
     @Autowired
+    private EnrollmentRespository enrollmentRespository;
+    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
-    public CourseServiceImpl(CourseRepository courseRepository, LessonRepository lessonRespository, ApplicationEventPublisher applicationEventPublisher){
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private Awsclient awsclient;
+
+    public CourseServiceImpl(CourseRepository courseRepository, LessonRepository lessonRespository, ApplicationEventPublisher applicationEventPublisher, Awsclient awsclient){
         this.courseRepository=courseRepository;
         this.lessonRespository=lessonRespository;
         this.applicationEventPublisher=applicationEventPublisher;
+        this.awsclient=awsclient;
     }
 
     public boolean addLesson(Long courseId, LessonDetails lessonDetails){
@@ -121,4 +137,64 @@ public class CourseServiceImpl implements CourseService {
         return courseResponseDto;
 
     }
+
+    @Override
+    public ResponseDto updateCourse(CourseDto courseDto) {
+        return courseRepository.findById(courseDto.getId())
+                .map(
+                        existingcourse -> {
+                            existingcourse.setName(courseDto.getName());
+                            existingcourse.setDescription(courseDto.getDescription());
+                            existingcourse.setContents(courseDto.getContents());
+
+                            courseRepository.save(existingcourse);
+
+                            return new ResponseDto(true, "Course Has been updated");
+                        })
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Course Not found with the Following Id:" + courseDto.getId()));
+    }
+
+    @Override
+    public ResponseDto deleteCourse(Long id){
+        Course course = courseRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Course not found with the following id:" + id));
+        List<Enrollment> enrollment = enrollmentRespository.findByCourseId(course.getId());
+        enrollmentRespository.deleteAllInBatch(enrollment);
+        courseRepository.delete(course);
+        return new ResponseDto(true,"Course has been deleted");
+    }
+
+    @Override
+    public List<CourseDto> searchCourse(String keyword) {
+        List<Course> courses = courseRepository.findByDescriptionContainingIgnoreCase(keyword);
+        List<CourseDto> courseDto = CourseMapper.mapCourselisttoCourseDtolist(courses);
+        return courseDto;
+    }
+
+    @Override
+    public ResponseDto addreviewtoCourse(ReviewDto reviewDto) {
+        Course course = courseRepository.findById(reviewDto.getCourseId()).orElseThrow(
+                () -> new RuntimeException("Course Not found by the following Id:" + reviewDto.getCourseId())
+        );
+        Review review = new Review();
+        review.setComment(review.getComment());
+        review.setCourse(course);
+        reviewRepository.save(review);
+
+        return new ResponseDto(true,"Review has been added to the course");
+    }
+
+    @Override
+    public ResponseDto getReview(Long id) {
+        Review review = reviewRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(
+                        "Review has been found by the mentioned id: " + id
+                )
+        );
+        return new ResponseDto(true,review.getComment());
+    }
+
 }
+

@@ -2,9 +2,10 @@ package com.onlineLearningPlatform.Service;
 
 
 import com.onlineLearningPlatform.dto.LessonDto;
+import com.onlineLearningPlatform.dto.ResponseDto;
 
 public interface LessonService {
 
 
-    void addLesson(LessonDto lessonDto);
+    ResponseDto addLesson(LessonDto lessonDto);
 }

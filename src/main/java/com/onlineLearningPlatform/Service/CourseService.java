@@ -1,8 +1,7 @@
 package com.onlineLearningPlatform.Service;
 
-import com.onlineLearningPlatform.dto.CourseCreateDto;
-import com.onlineLearningPlatform.dto.CourseDto;
-import com.onlineLearningPlatform.dto.CourseResponseDto;
+import com.onlineLearningPlatform.dto.*;
+import com.onlineLearningPlatform.model.Review;
 
 import java.util.List;
 
@@ -12,4 +11,14 @@ public interface CourseService {
     CourseDto findById(Long id);
 
     CourseResponseDto createcourse(CourseCreateDto courseCreateDto);
+
+    ResponseDto updateCourse(CourseDto courseDto);
+
+    ResponseDto deleteCourse(Long id);
+
+    List<CourseDto> searchCourse(String keyword);
+
+    ResponseDto addreviewtoCourse(ReviewDto reviewDto);
+
+    ResponseDto getReview(Long id);
 }

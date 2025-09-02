@@ -2,6 +2,7 @@ package com.onlineLearningPlatform.Service.Impl;
 
 import com.onlineLearningPlatform.Service.LessonService;
 import com.onlineLearningPlatform.dto.LessonDto;
+import com.onlineLearningPlatform.dto.ResponseDto;
 import com.onlineLearningPlatform.events.Lessonevent;
 import com.onlineLearningPlatform.model.Course;
 import com.onlineLearningPlatform.model.Lesson;
@@ -27,7 +28,7 @@ public class LessonServiceImpl implements LessonService {
 
 
     @Override
-    public void addLesson(LessonDto lessonDto) {
+    public ResponseDto addLesson(LessonDto lessonDto) {
         Course course = courseRepository.findById(lessonDto.getCourseId()).orElseThrow(
                 () -> new RuntimeException("course not found with givenID"));
         Lesson lesson = new Lesson();
@@ -46,6 +47,14 @@ public class LessonServiceImpl implements LessonService {
         ));
         log.info("Event Published");
 
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setMessage(lesson.getVideoUrl());
+        responseDto.setSuccess(true);
 
+        return  responseDto;
     }
+
+
+
+
 }

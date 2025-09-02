@@ -3,6 +3,8 @@ package com.onlineLearningPlatform.controllers;
 import com.onlineLearningPlatform.Service.CourseService;
 import com.onlineLearningPlatform.Service.LessonService;
 import com.onlineLearningPlatform.dto.*;
+import com.onlineLearningPlatform.model.Course;
+import com.onlineLearningPlatform.model.Review;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -95,29 +97,126 @@ public class CourseController {
                courseResponseDto
        );
     }
+    @Operation(
+            summary = "Update Course REST API",
+            description = "REST API to Update Course for Instructor"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error"
+            )
+    })
 
-    public void updateCourse(){
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public ResponseEntity<ResponseDto> updateCourse(@RequestBody CourseDto courseDto){
+        ResponseDto responseDto = courseService.updateCourse(courseDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                responseDto
+        );
+    }
+
+    @Operation(
+            summary = "Delete Course REST API",
+            description = "REST API to Delete Course for Instructor"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error"
+            )
+    })
+    @DeleteMapping("/deleteCourse")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public ResponseEntity<ResponseDto> deleteCourse(@RequestParam Long id){
+        ResponseDto responseDto = courseService.deleteCourse(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                responseDto
+        );
 
     }
 
-    public void deleteCourse(){
+    @Operation(
+            summary = "Search Course REST API",
+            description = "REST API to Search Course for users"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error"
+            )
+    })
+    @GetMapping("/searchbykeyword")
+    public ResponseEntity<List<CourseDto>> searchCourses(String keyword){
+        List<CourseDto> courseDtos = courseService.searchCourse(keyword);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                courseDtos
+        );
+
 
     }
+    @Operation(
+            summary = "Course Review REST API",
+            description = "REST API to get review for the Course for Instructor"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error"
+            )
+    })
+    @GetMapping("getreview")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public ResponseEntity<ResponseDto> getCourseReview(@RequestParam Long id){
+        ResponseDto responseDto = courseService.getReview(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                responseDto
+        );
 
-    public void searchCourses(){
 
     }
+    @Operation(
+            summary = "Add Review to Course REST API",
+            description = "REST API to Comment on the Course"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error"
+            )
+    })
 
-    public void getCourseReview(){
+    @PostMapping("addreview")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<ResponseDto> addReviewToCourse(@RequestBody ReviewDto reviewDto){
+        ResponseDto responseDto = courseService.addreviewtoCourse(reviewDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                responseDto
+        );
 
-    }
 
-    public void addReviewToCourse(){
-
-
-    }
-
-    public void enrollUserToCourse(){
 
     }
 

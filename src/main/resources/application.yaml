@@ -24,3 +24,14 @@ management:
     web:
       exposure:
         include: "*"
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+    credentials:
+      access-key:
+      secret-key:
+    s3:
+      bucket: videourl-uploaderbucket
