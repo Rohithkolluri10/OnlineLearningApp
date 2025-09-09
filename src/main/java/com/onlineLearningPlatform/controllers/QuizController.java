@@ -56,7 +56,10 @@ public class QuizController {
 
     }
 
-    public void updateQuiz(){
+    public ResponseEntity<String> updateQuiz(){
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                "Testing the Pull request"
+        );
 
     }
 
